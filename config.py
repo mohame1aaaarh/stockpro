@@ -1,2 +1,2 @@
-DATABASE_URL="C:\Users\ENG\Documents\شغل\stockpro\database\stockpro.db"
-PRODUCTS_PHOTO_FOLDER="C:\Users\ENG\Documents\شغل\stockpro\static\product_photos"
+DATABASE_URL="C:\اكمل المسار من جهازك\stockpro\database\stockpro.db"
+PRODUCTS_PHOTO_FOLDER="C:\اكمل المسار من جهازك\stockpro\static\product_photos"
