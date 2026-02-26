@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}لوحة التحكم - StockPro{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total Products -->
+    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                <i class="fas fa-cubes text-2xl"></i>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">إجمالي المنتجات</p>
+                <p class="text-2xl font-bold text-gray-800">{{ total_products }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Customers -->
+    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                <i class="fas fa-users text-2xl"></i>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">إجمالي العملاء</p>
+                <p class="text-2xl font-bold text-gray-800">{{ total_customers }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Suppliers -->
+    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+                <i class="fas fa-truck text-2xl"></i>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">إجمالي الموردون</p>
+                <p class="text-2xl font-bold text-gray-800">{{ total_suppliers }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today Sales -->
+    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-red-100 text-red-600 mr-4">
+                <i class="fas fa-shopping-cart text-2xl"></i>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">المبيعات اليوم</p>
+                <p class="text-2xl font-bold text-gray-800">{{ today_sales }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Sales -->
+<div class="bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">المبيعات الأخيرة</h3>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">المنتج</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">العميل</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الكمية</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">السعر الإجمالي</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">التاريخ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 px-4">{{ sale.product.name }}</td>
+                    <td class="py-3 px-4">{{ sale.customer.name }}</td>
+                    <td class="py-3 px-4">{{ sale.quantity }}</td>
+                    <td class="py-3 px-4">{{ sale.total_price }} ريال</td>
+                    <td class="py-3 px-4">{{ sale.sale_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
