@@ -1,11 +1,12 @@
 import sqlite3
 import sys
+from config import DATABASE_URL
 sys.stdout.reconfigure(encoding='utf-8')
 
 def init_db():
-    conn = sqlite3.connect("database/stockpro.db")
+    conn = sqlite3.connect(DATABASE_URL)
     
-    with open("database/database.sql", "r", encoding="utf-8") as f:
+    with open(DATABASE_URL.replace(".db", ".sql"), "r", encoding="utf-8") as f:
         sql = f.read()
     
     conn.executescript(sql)
