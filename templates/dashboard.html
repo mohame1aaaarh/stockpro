@@ -1,91 +1,67 @@
 {% extends "base.html" %}
 
+{% block page_title %}لوحة التحكم{% endblock %}
+
 {% block content %}
-<div class="header">
-    <h1>لوحة التحكم</h1>
-    <p>مرحباً بك في نظام إدارة المخزون</p>
-</div>
 
 <!-- Stats Cards -->
-<div class="stats-grid">
-    <!-- Total Products -->
-    <div class="stat-card">
-        <div class="flex items-center">
-            <div class="stat-icon products">
-                <i class="fas fa-cubes"></i>
-            </div>
-            <div class="stat-content">
-                <h3>إجمالي المنتجات</h3>
-                <div class="number">{{ total_products }}</div>
-                <div class="trend up">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>زيادة 12%</span>
-                </div>
-            </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-6">
+
+    <div class="stat-card fade-in-up flex items-center gap-4">
+        <div class="stat-icon products">
+            <i class="fas fa-cubes"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium">إجمالي المنتجات</p>
+            <p class="text-2xl font-bold text-gray-800">{{ total_products }}</p>
         </div>
     </div>
 
-    <!-- Total Customers -->
-    <div class="stat-card">
-        <div class="flex items-center">
-            <div class="stat-icon customers">
-                <i class="fas fa-users"></i>
-            </div>
-            <div class="stat-content">
-                <h3>إجمالي العملاء</h3>
-                <div class="number">{{ total_customers }}</div>
-                <div class="trend up">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>زيادة 8%</span>
-                </div>
-            </div>
+    <div class="stat-card fade-in-up flex items-center gap-4">
+        <div class="stat-icon customers">
+            <i class="fas fa-users"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium">إجمالي العملاء</p>
+            <p class="text-2xl font-bold text-gray-800">{{ total_customers }}</p>
         </div>
     </div>
 
-    <!-- Total Suppliers -->
-    <div class="stat-card">
-        <div class="flex items-center">
-            <div class="stat-icon suppliers">
-                <i class="fas fa-truck"></i>
-            </div>
-            <div class="stat-content">
-                <h3>إجمالي الموردين</h3>
-                <div class="number">{{ total_suppliers }}</div>
-                <div class="trend down">
-                    <i class="fas fa-arrow-down"></i>
-                    <span>انخفاض 2%</span>
-                </div>
-            </div>
+    <div class="stat-card fade-in-up flex items-center gap-4">
+        <div class="stat-icon suppliers">
+            <i class="fas fa-truck"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium">إجمالي الموردين</p>
+            <p class="text-2xl font-bold text-gray-800">{{ total_suppliers }}</p>
         </div>
     </div>
 
-    <!-- Today Sales -->
-    <div class="stat-card">
-        <div class="flex items-center">
-            <div class="stat-icon sales">
-                <i class="fas fa-shopping-cart"></i>
-            </div>
-            <div class="stat-content">
-                <h3>المبيعات اليوم</h3>
-                <div class="number">{{ today_sales }}</div>
-                <div class="trend up">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>زيادة 15%</span>
-                </div>
-            </div>
+    <div class="stat-card fade-in-up flex items-center gap-4">
+        <div class="stat-icon sales">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium">مبيعات اليوم</p>
+            <p class="text-2xl font-bold text-gray-800">{{ today_sales }}</p>
         </div>
     </div>
+
 </div>
 
 <!-- Recent Sales -->
-<div class="sales-card">
-    <h3>المبيعات الأخيرة</h3>
-    <div class="table-container">
-        <table class="sales-table">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+    <h3 class="text-base font-bold text-gray-700 mb-4">
+        <i class="fas fa-clock-rotate-left text-blue-500 ml-2"></i>
+        المبيعات الأخيرة
+    </h3>
+
+    <div class="overflow-x-auto">
+        <table class="table-auto w-full">
             <thead>
                 <tr>
                     <th>العميل</th>
-                    <th>السعر الإجمالي</th>
+                    <th>الإجمالي</th>
                     <th>التاريخ</th>
                 </tr>
             </thead>
@@ -93,16 +69,20 @@
                 {% if recent_sales %}
                     {% for sale in recent_sales %}
                     <tr>
-                        <td>{{ sale.customer_name }}</td>
-                        <td>{{ sale.total_amount }} جنيه</td>
-                        <td>{{ sale.sale_date }}</td>
+                        <td class="font-medium">{{ sale.customer_name }}</td>
+                        <td>
+                            <span class="badge badge-success">{{ sale.total_amount }} جنيه</span>
+                        </td>
+                        <td class="text-gray-400 text-sm">{{ sale.sale_date }}</td>
                     </tr>
                     {% endfor %}
                 {% else %}
                 <tr>
-                    <td colspan="3" class="no-sales">
-                        <i class="fas fa-shopping-cart"></i>
-                        لا توجد مبيعات حتى الآن
+                    <td colspan="3">
+                        <div class="empty-state">
+                            <i class="fas fa-shopping-cart"></i>
+                            لا توجد مبيعات حتى الآن
+                        </div>
                     </td>
                 </tr>
                 {% endif %}
@@ -110,4 +90,5 @@
         </table>
     </div>
 </div>
+
 {% endblock %}

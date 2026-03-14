@@ -37,7 +37,18 @@ def dashboard():
 
 @stokpro.route('/products')
 def productPage():
-    return 'hello from product page'
+    conn = get_db_connection()
+    
+    products = conn.execute('''
+        SELECT 
+            products.*,
+            categories.name AS category_name
+        FROM products
+        JOIN categories ON products.category_id = categories.id
+    ''').fetchall()
+    
+    conn.close()
+    return render_template('products.html', products=products)
 
 @stokpro.route('/products/add')
 def productPageadd():
