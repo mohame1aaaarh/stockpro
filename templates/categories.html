@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block page_title %}الفئات{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- فورم الإضافة -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-fit">
+        <h2 class="text-lg font-bold text-gray-700 mb-4">
+            <i class="fas fa-plus text-blue-500 ml-2"></i>
+            إضافة فئة جديدة
+        </h2>
+        <form action="{{ url_for('categoriesPageadd') }}" method="POST">
+            <div class="mb-4">
+                <label class="form-label">اسم الفئة</label>
+                <input type="text" name="name" class="form-input"
+                       placeholder="مثال: إلكترونيات" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-full">
+                <i class="fas fa-save"></i> حفظ
+            </button>
+        </form>
+    </div>
+
+    <!-- جدول الفئات -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
+        <h2 class="text-lg font-bold text-gray-700 mb-4">
+            <i class="fas fa-list text-blue-500 ml-2"></i>
+            الفئات الموجودة
+        </h2>
+
+        <div class="overflow-x-auto">
+            <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>اسم الفئة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if categories %}
+                        {% for cat in categories %}
+                        <tr>
+                            <td class="text-gray-400 text-sm">{{ cat.id }}</td>
+                            <td class="font-medium text-gray-800">{{ cat.name }}</td>
+                            <td>
+                                <form action="{{ url_for('categoriesPagedelete', id=cat.id) }}"
+                                      method="POST"
+                                      onsubmit="return confirm('هل أنت متأكد من حذف {{ cat.name }}؟')"
+                                      style="display:inline;">
+                                    <button type="submit" class="btn btn-ghost text-xs px-2 py-1">
+                                        <i class="fas fa-trash text-red-500"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">
+                            <div class="empty-state">
+                                <i class="fas fa-folder-open"></i>
+                                لا توجد فئات حتى الآن
+                            </div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

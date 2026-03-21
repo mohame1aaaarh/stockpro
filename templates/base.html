@@ -68,7 +68,11 @@
                 <i class="fas fa-box"></i>
                 <span>المنتجات</span>
             </a>
-
+            <a href="{{ url_for('categoriesPage') }}"
+               class="sidebar-link {% if request.endpoint == 'categoriesPage' %}active{% endif %}">
+                <i class="fas fa-folder"></i>
+                <span>الفئات</span>
+            </a>
             <!-- ⏳ لسه مش موجود -->
             <a href="#" class="sidebar-link disabled">
                 <i class="fas fa-truck"></i>
