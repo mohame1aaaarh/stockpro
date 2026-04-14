@@ -227,5 +227,43 @@ def customersPagedelete(id):
     flash('تم حذف العميل بنجاح', 'success')
     return redirect(url_for('customersPage'))
 
+@stokpro.route('/reports')
+def reportsPage():
+    conn = get_db_connection()
+
+    # أكتر 5 منتجات مبيعاً
+    top_products = conn.execute('''
+        SELECT 
+            p.name,
+            SUM(si.quantity) AS total_sold,
+            SUM(si.quantity * si.price) AS total_revenue
+        FROM sale_items si
+        JOIN products p ON si.product_id = p.id
+        GROUP BY p.id
+        ORDER BY total_sold DESC
+        LIMIT 5
+    ''').fetchall()
+
+    # المنتجات اللي وصلت للحد الأدنى
+    low_stock = conn.execute('''
+        SELECT name, quantity_by_unit, min_quantity
+        FROM products
+        WHERE quantity_by_unit <= min_quantity
+    ''').fetchall()
+
+    # إجمالي الأرباح (مبيعات - مشتريات)
+    total_sales = conn.execute('SELECT SUM(total_amount) FROM sales').fetchone()[0] or 0
+    total_cost  = conn.execute('SELECT SUM(total_amount) FROM purchases').fetchone()[0] or 0
+    total_profit = total_sales - total_cost
+
+    conn.close()
+    return render_template('reports.html',
+        top_products=top_products,
+        low_stock=low_stock,
+        total_sales=total_sales,
+        total_cost=total_cost,
+        total_profit=total_profit
+    )
+
 if __name__ == '__main__':
     stokpro.run(debug=True, port=5666)

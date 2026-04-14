@@ -108,11 +108,11 @@
                 <p class="text-gray-600 text-xs font-semibold uppercase px-2 mb-2 tracking-wider">التحليلات</p>
             </div>
 
-            <!-- ⏳ لسه مش موجود -->
-            <a href="#" class="sidebar-link disabled">
+            <!-- ✅ موجود -->
+            <a href="{{ url_for('reportsPage') }}"
+               class="sidebar-link {% if request.endpoint == 'reportsPage' %}active{% endif %}">
                 <i class="fas fa-chart-bar"></i>
                 <span>التقارير</span>
-                <span class="mr-auto text-xs bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded">قريباً</span>
             </a>
 
         </nav>
