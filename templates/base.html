@@ -97,11 +97,10 @@
                 <span class="mr-auto text-xs bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded">قريباً</span>
             </a>
 
-            <!-- ⏳ لسه مش موجود -->
-            <a href="#" class="sidebar-link disabled">
+            <!-- ✅ موجود -->
+            <a href="{{ url_for('purchasesPage') }}" class="sidebar-link {% if request.endpoint == 'purchasesPage' %}active{% endif %}">
                 <i class="fas fa-file-invoice"></i>
                 <span>المشتريات</span>
-                <span class="mr-auto text-xs bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded">قريباً</span>
             </a>
 
             <div class="pt-3">

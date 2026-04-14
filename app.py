@@ -280,6 +280,7 @@ def purchasesPageadd():
     conn.commit()
     conn.close()
 
+    flash('تم تسجيل المشترى بنجاح', 'success')
     return redirect(url_for('purchasesPage'))
 
 if __name__ == '__main__':

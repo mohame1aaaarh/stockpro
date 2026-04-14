@@ -42,21 +42,13 @@ create table if not exists suppliers ( --جدول الموردين
 
 create table if not exists purchases (
     id integer primary key autoincrement,
-    supplier_id integer not null,
-    purchase_date text not null,
-    total_amount real not null,
-    info text,
-    FOREIGN KEY (supplier_id) REFERENCES suppliers(id)
-);
-
-create table if not exists purchase_items (
-    id integer primary key autoincrement,
-    purchase_id integer not null,
     product_id integer not null,
+    supplier_id integer not null,
     quantity integer not null,
-    price real not null,
-    FOREIGN KEY (purchase_id) REFERENCES purchases(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
+    total_cost real not null,
+    purchase_date text default (datetime('now')),
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(id)
 );
 
 create table if not exists sales (
