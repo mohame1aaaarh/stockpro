@@ -153,6 +153,7 @@ def categoriesPagedelete(id):
 def suppliersPage():
     conn = get_db_connection()
     suppliers = conn.execute('SELECT * FROM suppliers').fetchall()
+    conn.commit()
     conn.close()
     return render_template('suppliers.html', suppliers=suppliers)
 
