@@ -226,6 +226,63 @@ def customersPagedelete(id):
 
     flash('تم حذف العميل بنجاح', 'success')
     return redirect(url_for('customersPage'))
+@stokpro.route('/purchases')
+def purchasesPage():
+    conn = get_db_connection()
+
+    purchases = conn.execute('''
+        SELECT 
+            purchases.*,
+            products.name  AS product_name,
+            suppliers.name AS supplier_name
+        FROM purchases
+        JOIN products  ON purchases.product_id  = products.id
+        JOIN suppliers ON purchases.supplier_id = suppliers.id
+    ''').fetchall()
+
+    products  = conn.execute('SELECT * FROM products').fetchall()
+    suppliers = conn.execute('SELECT * FROM suppliers').fetchall()
+
+    conn.close()
+
+    return render_template(
+        'purchases.html',
+        purchases=purchases,
+        products=products,
+        suppliers=suppliers
+    )
+    
+@stokpro.route('/purchases/add', methods=['POST'])
+def purchasesPageadd():
+    product_id  = request.form['product_id']
+    supplier_id = request.form['supplier_id']
+    quantity    = int(request.form['quantity'])
+
+    conn = get_db_connection()
+
+    product = conn.execute(
+        'SELECT price_for_buy FROM products WHERE id = ?',
+        (product_id,)
+    ).fetchone()
+
+    total_cost = product['price_for_buy'] * quantity
+
+    conn.execute(
+        'INSERT INTO purchases (product_id, supplier_id, quantity, total_cost) VALUES (?, ?, ?, ?)',
+        (product_id, supplier_id, quantity, total_cost)
+    )
+
+    conn.execute(
+        'UPDATE products SET quantity_by_unit = quantity_by_unit + ? WHERE id = ?',
+        (quantity, product_id)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('purchasesPage'))
 
 if __name__ == '__main__':
     stokpro.run(debug=True, port=5666)
+
+
