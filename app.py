@@ -149,5 +149,45 @@ def categoriesPagedelete(id):
     flash('تم حذف الفئة بنجاح', 'success')
     return redirect(url_for('categoriesPage'))
 
+@stokpro.route('/suppliers')
+def suppliersPage():
+    conn = get_db_connection()
+    suppliers = conn.execute('SELECT * FROM suppliers').fetchall()
+    conn.close()
+    return render_template('suppliers.html', suppliers=suppliers)
+
+
+@stokpro.route('/suppliers/add', methods=['POST'])
+def suppliersPageadd():
+    name    = request.form['name']
+    phone   = request.form['phone']
+    email   = request.form['email']
+    address = request.form['address']
+    
+    conn = get_db_connection()
+    conn.execute(
+        'INSERT INTO suppliers (name, phone, email, address) VALUES (?, ?, ?, ?)',
+        (name, phone, email, address)
+    )
+
+    conn.commit() 
+    conn.close()
+    
+    flash('تم إضافة المورد بنجاح', 'success')
+
+    return redirect(url_for('suppliersPage'))
+
+
+@stokpro.route('/suppliers/delete/<int:id>', methods=['POST'])
+def suppliersPagedelete(id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM suppliers WHERE id = ?', (id,))
+
+    conn.commit()
+    conn.close()
+    
+    flash('تم حذف المورد بنجاح', 'success')
+    return redirect(url_for('suppliersPage'))
+
 if __name__ == '__main__':
     stokpro.run(debug=True, port=5666)

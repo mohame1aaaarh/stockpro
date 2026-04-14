@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <h2 class="mb-4">إدارة الموردين</h2>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form action="{{ url_for('suppliersPageadd') }}" method="POST" class="row g-3">
+                <div class="col-md-3">
+                    <input type="text" name="name" class="form-control" placeholder="اسم المورد" required>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="phone" class="form-control" placeholder="رقم الهاتف">
+                </div>
+                <div class="col-md-3">
+                    <input type="email" name="email" class="form-control" placeholder="البريد الإلكتروني">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="address" class="form-control" placeholder="العنوان">
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary w-100">إضافة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>الاسم</th>
+                        <th>الهاتف</th>
+                        <th>الإيميل</th>
+                        <th>العنوان</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for supplier in suppliers %}
+                    <tr>
+                        <td>{{ supplier.name }}</td>
+                        <td>{{ supplier.phone }}</td>
+                        <td>{{ supplier.email }}</td>
+                        <td>{{ supplier.address }}</td>
+                        <td>
+                            <form action="{{ url_for('suppliersPagedelete', id=supplier.id) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من الحذف؟');">
+                                <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -73,13 +73,12 @@
                 <i class="fas fa-folder"></i>
                 <span>الفئات</span>
             </a>
-            <!-- ⏳ لسه مش موجود -->
-            <a href="#" class="sidebar-link disabled">
+            <!-- ✅ موجود -->
+            <a href="{{ url_for('suppliersPage') }}"
+            class="sidebar-link {% if request.endpoint == 'suppliersPage' %}active{% endif %}">
                 <i class="fas fa-truck"></i>
                 <span>الموردون</span>
-                <span class="mr-auto text-xs bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded">قريباً</span>
             </a>
-
             <!-- ⏳ لسه مش موجود -->
             <a href="#" class="sidebar-link disabled">
                 <i class="fas fa-users"></i>
