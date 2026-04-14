@@ -1,60 +1,73 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}الموردون - StockPro{% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-4">
-    <h2 class="mb-4">إدارة الموردين</h2>
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">الموردون</h1>
+</div>
 
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-            <form action="{{ url_for('suppliersPageadd') }}" method="POST" class="row g-3">
-                <div class="col-md-3">
-                    <input type="text" name="name" class="form-control" placeholder="اسم المورد" required>
-                </div>
-                <div class="col-md-2">
-                    <input type="text" name="phone" class="form-control" placeholder="رقم الهاتف">
-                </div>
-                <div class="col-md-3">
-                    <input type="email" name="email" class="form-control" placeholder="البريد الإلكتروني">
-                </div>
-                <div class="col-md-3">
-                    <input type="text" name="address" class="form-control" placeholder="العنوان">
-                </div>
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary w-100">إضافة</button>
-                </div>
-            </form>
+<!-- فورم الإضافة -->
+<div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <form action="{{ url_for('suppliersPageadd') }}" method="POST" class="flex flex-wrap gap-3 items-end">
+        <div class="flex-1 min-w-[180px]">
+            <label class="form-label">اسم المورد</label>
+            <input type="text" name="name" class="form-input" placeholder="اسم المورد" required>
         </div>
-    </div>
+        <div class="flex-1 min-w-[150px]">
+            <label class="form-label">رقم الهاتف</label>
+            <input type="text" name="phone" class="form-input" placeholder="رقم الهاتف">
+        </div>
+        <div class="flex-1 min-w-[180px]">
+            <label class="form-label">البريد الإلكتروني</label>
+            <input type="email" name="email" class="form-input" placeholder="البريد الإلكتروني">
+        </div>
+        <div class="flex-1 min-w-[180px]">
+            <label class="form-label">العنوان</label>
+            <input type="text" name="address" class="form-input" placeholder="العنوان">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus"></i> إضافة
+            </button>
+        </div>
+    </form>
+</div>
 
-    <div class="card shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>الاسم</th>
-                        <th>الهاتف</th>
-                        <th>الإيميل</th>
-                        <th>العنوان</th>
-                        <th>الإجراءات</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for supplier in suppliers %}
-                    <tr>
-                        <td>{{ supplier.name }}</td>
-                        <td>{{ supplier.phone }}</td>
-                        <td>{{ supplier.email }}</td>
-                        <td>{{ supplier.address }}</td>
-                        <td>
-                            <form action="{{ url_for('suppliersPagedelete', id=supplier.id) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من الحذف؟');">
-                                <button type="submit" class="btn btn-danger btn-sm">حذف</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<!-- جدول الموردين -->
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الاسم</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الهاتف</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الإيميل</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">العنوان</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for supplier in suppliers %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 px-4 font-medium text-gray-800">{{ supplier.name }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ supplier.phone_number }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ supplier.email }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ supplier.address }}</td>
+                    <td class="py-3 px-4">
+                        <form action="{{ url_for('suppliersPagedelete', id=supplier.id) }}"
+                              method="POST"
+                              onsubmit="return confirm('هل أنت متأكد من حذف {{ supplier.name }}؟')"
+                              style="display:inline;">
+                            <button type="submit" class="btn btn-ghost text-xs px-2 py-1">
+                                <i class="fas fa-trash text-red-500"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

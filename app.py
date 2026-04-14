@@ -167,7 +167,7 @@ def suppliersPageadd():
     
     conn = get_db_connection()
     conn.execute(
-        'INSERT INTO suppliers (name, phone, email, address) VALUES (?, ?, ?, ?)',
+        'INSERT INTO suppliers (name, phone_number, email, address) VALUES (?, ?, ?, ?)',
         (name, phone, email, address)
     )
 
@@ -189,6 +189,43 @@ def suppliersPagedelete(id):
     
     flash('تم حذف المورد بنجاح', 'success')
     return redirect(url_for('suppliersPage'))
+
+@stokpro.route('/customers')
+def customersPage():
+    conn = get_db_connection()
+    customers = conn.execute('SELECT * FROM customers').fetchall()
+    conn.close()
+    return render_template('customers.html', customers=customers)
+
+
+@stokpro.route('/customers/add', methods=['POST'])
+def customersPageadd():
+    name    = request.form['name']
+    phone   = request.form['phone']
+    email   = request.form['email']
+    address = request.form['address']
+
+    conn = get_db_connection()
+    conn.execute(
+        'INSERT INTO customers (name, phone_number, email, address) VALUES (?, ?, ?, ?)',
+        (name, phone, email, address)
+    )
+    conn.commit()
+    conn.close()
+
+    flash('تم إضافة العميل بنجاح', 'success')
+    return redirect(url_for('customersPage'))
+
+
+@stokpro.route('/customers/delete/<int:id>', methods=['POST'])
+def customersPagedelete(id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM customers WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+
+    flash('تم حذف العميل بنجاح', 'success')
+    return redirect(url_for('customersPage'))
 
 if __name__ == '__main__':
     stokpro.run(debug=True, port=5666)

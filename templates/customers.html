@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}العملاء - StockPro{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">العملاء</h1>
+</div>
+
+<!-- فورم الإضافة -->
+<div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <form action="{{ url_for('customersPageadd') }}" method="POST" class="flex flex-wrap gap-3 items-end">
+        <div class="flex-1 min-w-[180px]">
+            <label class="form-label">اسم العميل</label>
+            <input type="text" name="name" class="form-input" placeholder="اسم العميل" required>
+        </div>
+        <div class="flex-1 min-w-[150px]">
+            <label class="form-label">رقم الهاتف</label>
+            <input type="text" name="phone" class="form-input" placeholder="رقم الهاتف">
+        </div>
+        <div class="flex-1 min-w-[180px]">
+            <label class="form-label">البريد الإلكتروني</label>
+            <input type="email" name="email" class="form-input" placeholder="البريد الإلكتروني">
+        </div>
+        <div class="flex-1 min-w-[180px]">
+            <label class="form-label">العنوان</label>
+            <input type="text" name="address" class="form-input" placeholder="العنوان">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus"></i> إضافة
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- جدول العملاء -->
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الاسم</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الهاتف</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الإيميل</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">العنوان</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 px-4 font-medium text-gray-800">{{ customer.name }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ customer.phone_number }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ customer.email }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ customer.address }}</td>
+                    <td class="py-3 px-4">
+                        <form action="{{ url_for('customersPagedelete', id=customer.id) }}"
+                              method="POST"
+                              onsubmit="return confirm('هل أنت متأكد من حذف {{ customer.name }}؟')"
+                              style="display:inline;">
+                            <button type="submit" class="btn btn-ghost text-xs px-2 py-1">
+                                <i class="fas fa-trash text-red-500"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

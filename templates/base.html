@@ -79,11 +79,11 @@
                 <i class="fas fa-truck"></i>
                 <span>الموردون</span>
             </a>
-            <!-- ⏳ لسه مش موجود -->
-            <a href="#" class="sidebar-link disabled">
+            <!-- ✅ موجود -->
+            <a href="{{ url_for('customersPage') }}"
+               class="sidebar-link {% if request.endpoint == 'customersPage' %}active{% endif %}">
                 <i class="fas fa-users"></i>
                 <span>العملاء</span>
-                <span class="mr-auto text-xs bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded">قريباً</span>
             </a>
 
             <div class="pt-3">
