@@ -265,5 +265,67 @@ def reportsPage():
         total_profit=total_profit
     )
 
+@stokpro.route('/sales')
+def salesPage():
+    conn = get_db_connection()
+    sales = conn.execute('''
+        SELECT 
+            s.id,
+            s.sale_date,
+            s.total_amount,
+            p.name AS product_name,
+            c.name AS customer_name,
+            si.quantity
+        FROM sales s
+        JOIN customers c ON s.customer_id = c.id
+        JOIN sale_items si ON s.id = si.sale_id
+        JOIN products p ON si.product_id = p.id
+        ORDER BY s.sale_date DESC
+    ''').fetchall()
+    products  = conn.execute('SELECT * FROM products').fetchall()
+    customers = conn.execute('SELECT * FROM customers').fetchall()
+    conn.close()
+    return render_template('sales.html', sales=sales, products=products, customers=customers)
+
+@stokpro.route('/sales/add', methods=['POST'])
+def salesPageadd():
+    product_id  = request.form['product_id']
+    customer_id = request.form['customer_id']
+    quantity    = int(request.form['quantity'])
+
+    conn = get_db_connection()
+
+    # جيب سعر المنتج عشان تحسب الإجمالي
+    product = conn.execute('SELECT price_for_sale FROM products WHERE id = ?', (product_id,)).fetchone()
+    if product:
+        price = product['price_for_sale']
+        total_amount = price * quantity
+        import datetime
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        # سجل البيعة في جدول sales
+        cur = conn.execute(
+            'INSERT INTO sales (customer_id, sale_date, total_amount, info) VALUES (?, ?, ?, ?)',
+            (customer_id, now, total_amount, '')
+        )
+        sale_id = cur.lastrowid
+
+        # سجل تفاصيل البيعة في جدول sale_items
+        conn.execute(
+            'INSERT INTO sale_items (sale_id, product_id, quantity, price) VALUES (?, ?, ?, ?)',
+            (sale_id, product_id, quantity, price)
+        )
+
+        # ⚠️ انقص الكمية من المخزون
+        conn.execute(
+            'UPDATE products SET quantity_by_unit = quantity_by_unit - ? WHERE id = ?',
+            (quantity, product_id)
+        )
+
+        conn.commit()
+    conn.close()
+    flash('تم تسجيل البيعة بنجاح', 'success')
+    return redirect(url_for('salesPage'))
+
 if __name__ == '__main__':
     stokpro.run(debug=True, port=5666)

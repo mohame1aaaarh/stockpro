@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}المبيعات - StockPro{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">المبيعات</h1>
+</div>
+
+<!-- فورم الإضافة -->
+<div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <form action="{{ url_for('salesPageadd') }}" method="POST" class="flex flex-wrap gap-3 items-end">
+        <div class="flex-1 min-w-[200px]">
+            <label class="form-label">العميل</label>
+            <select name="customer_id" class="form-input bg-white" required>
+                <option value="" disabled selected>اختر العميل...</option>
+                {% for c in customers %}
+                <option value="{{ c.id }}">{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="flex-1 min-w-[200px]">
+            <label class="form-label">المنتج</label>
+            <select name="product_id" class="form-input bg-white" required>
+                <option value="" disabled selected>اختر المنتج...</option>
+                {% for p in products %}
+                <option value="{{ p.id }}">{{ p.name }} (متاح: {{ p.quantity_by_unit }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="w-[120px]">
+            <label class="form-label">الكمية</label>
+            <input type="number" name="quantity" class="form-input" min="1" value="1" required>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus"></i> تسجيل بيعة
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- جدول المبيعات -->
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">التاريخ</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">العميل</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">المنتج</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الكمية</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الإجمالي</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 px-4 text-gray-600" dir="ltr">{{ sale.sale_date }}</td>
+                    <td class="py-3 px-4 font-medium text-gray-800">{{ sale.customer_name }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ sale.product_name }}</td>
+                    <td class="py-3 px-4 font-medium">{{ sale.quantity }}</td>
+                    <td class="py-3 px-4 text-green-600 font-medium">{{ sale.total_amount }} جنيه</td>
+                </tr>
+                {% endfor %}
+                {% if not sales %}
+                <tr>
+                    <td colspan="5" class="py-8 text-center text-gray-400">
+                        <i class="fas fa-receipt text-3xl mb-2 block"></i>
+                        لا توجد مبيعات مسجلة حتى الآن
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
