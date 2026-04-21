@@ -8,7 +8,7 @@
         تعديل: {{ product.name }}
     </h2>
 
-    <form action="{{ url_for('productPageeditSave', id=product.id) }}" method="POST">
+    <form action="{{ url_for('product_edit_save', id=product.id) }}" method="POST">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
             <div>
@@ -57,7 +57,7 @@
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> حفظ التعديلات
             </button>
-            <a href="{{ url_for('productPage') }}" class="btn btn-ghost">
+            <a href="{{ url_for('product_page') }}" class="btn btn-ghost">
                 <i class="fas fa-arrow-right"></i> رجوع
             </a>
         </div>

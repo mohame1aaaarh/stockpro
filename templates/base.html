@@ -63,25 +63,25 @@
             </a>
 
             <!-- ✅ موجود -->
-            <a href="{{ url_for('productPage') }}"
-               class="sidebar-link {% if request.endpoint == 'productPage' %}active{% endif %}">
+            <a href="{{ url_for('product_page') }}"
+               class="sidebar-link {% if request.endpoint == 'product_page' %}active{% endif %}">
                 <i class="fas fa-box"></i>
                 <span>المنتجات</span>
             </a>
-            <a href="{{ url_for('categoriesPage') }}"
-               class="sidebar-link {% if request.endpoint == 'categoriesPage' %}active{% endif %}">
+            <a href="{{ url_for('categories_page') }}"
+               class="sidebar-link {% if request.endpoint == 'categories_page' %}active{% endif %}">
                 <i class="fas fa-folder"></i>
                 <span>الفئات</span>
             </a>
             <!-- ✅ موجود -->
-            <a href="{{ url_for('suppliersPage') }}"
-            class="sidebar-link {% if request.endpoint == 'suppliersPage' %}active{% endif %}">
+            <a href="{{ url_for('suppliers_page') }}"
+            class="sidebar-link {% if request.endpoint == 'suppliers_page' %}active{% endif %}">
                 <i class="fas fa-truck"></i>
                 <span>الموردون</span>
             </a>
             <!-- ✅ موجود -->
-            <a href="{{ url_for('customersPage') }}"
-               class="sidebar-link {% if request.endpoint == 'customersPage' %}active{% endif %}">
+            <a href="{{ url_for('customers_page') }}"
+               class="sidebar-link {% if request.endpoint == 'customers_page' %}active{% endif %}">
                 <i class="fas fa-users"></i>
                 <span>العملاء</span>
             </a>
@@ -91,16 +91,16 @@
             </div>
 
             <!-- ✅ موجود -->
-            <a href="{{ url_for('salesPage') }}" class="sidebar-link {% if request.endpoint == 'salesPage' %}active{% endif %}">
+            <a href="{{ url_for('sales_page') }}" class="sidebar-link {% if request.endpoint == 'sales_page' %}active{% endif %}">
                 <i class="fas fa-shopping-cart"></i>
                 <span>المبيعات</span>
             </a>
 
-            <!-- ⏳ لسه مش موجود -->
-            <a href="#" class="sidebar-link disabled">
+            <!-- ✅ موجود -->
+            <a href="{{ url_for('purchases_page') }}"
+               class="sidebar-link {% if request.endpoint == 'purchases_page' %}active{% endif %}">
                 <i class="fas fa-file-invoice"></i>
                 <span>المشتريات</span>
-                <span class="mr-auto text-xs bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded">قريباً</span>
             </a>
 
             <div class="pt-3">
@@ -108,8 +108,8 @@
             </div>
 
             <!-- ✅ موجود -->
-            <a href="{{ url_for('reportsPage') }}"
-               class="sidebar-link {% if request.endpoint == 'reportsPage' %}active{% endif %}">
+            <a href="{{ url_for('reports_page') }}"
+               class="sidebar-link {% if request.endpoint == 'reports_page' %}active{% endif %}">
                 <i class="fas fa-chart-bar"></i>
                 <span>التقارير</span>
             </a>
