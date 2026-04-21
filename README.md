@@ -56,11 +56,10 @@ Follow these steps to get a local copy up and running:
    Open your browser and visit: `http://127.0.0.1:5666`
 
 ## 📸 Screenshots
-*(Add your project screenshots here to showcase the UI)*
 
 | Dashboard | Product Management |
 |-----------|--------------------|
-| ![Dashboard Placeholder](https://via.placeholder.com/400x200?text=Dashboard+View) | ![Products Placeholder](https://via.placeholder.com/400x200?text=Products+Management) |
+| ![Dashboard Placeholder](https://i.postimg.cc/pVmcm21h/image.png) | ![Products Placeholder](https://i.postimg.cc/ryRg8fKS/image.png) |
 
 ## 📂 Project Structure
 ```text
