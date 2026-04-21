@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}التقارير - StockPro{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">التقارير</h1>
+</div>
+
+<!-- كروت الإجمالي -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+
+    <!-- إجمالي المبيعات -->
+    <div class="stat-card fade-in-up">
+        <div class="flex items-center gap-4">
+            <div class="stat-icon sales">
+                <i class="fas fa-cash-register"></i>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">إجمالي المبيعات</p>
+                <p class="text-2xl font-bold text-gray-800">{{ "%.2f"|format(total_sales) }} جنيه</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- إجمالي التكلفة -->
+    <div class="stat-card fade-in-up">
+        <div class="flex items-center gap-4">
+            <div class="stat-icon suppliers">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">إجمالي التكلفة (المشتريات)</p>
+                <p class="text-2xl font-bold text-gray-800">{{ "%.2f"|format(total_cost) }} جنيه</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- صافي الربح -->
+    <div class="stat-card fade-in-up">
+        <div class="flex items-center gap-4">
+            <div class="stat-icon {% if total_profit >= 0 %}customers{% else %}sales{% endif %}">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">صافي الربح</p>
+                <p class="text-2xl font-bold {% if total_profit >= 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                    {{ "%.2f"|format(total_profit) }} جنيه
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- جدول أكتر المنتجات مبيعاً -->
+<div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-lg font-bold text-gray-800 mb-4">
+        <i class="fas fa-trophy text-yellow-500 ml-2"></i>
+        أكتر 5 منتجات مبيعاً
+    </h2>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">المنتج</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الكمية المباعة</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الإيراد</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in top_products %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 px-4 font-medium text-gray-800">{{ product.name }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ product.total_sold }}</td>
+                    <td class="py-3 px-4 text-green-600 font-medium">{{ "%.2f"|format(product.total_revenue) }} جنيه</td>
+                </tr>
+                {% endfor %}
+                {% if not top_products %}
+                <tr>
+                    <td colspan="3" class="py-8 text-center text-gray-400">
+                        <i class="fas fa-inbox text-3xl mb-2 block"></i>
+                        لا توجد مبيعات حتى الآن
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- جدول المنتجات الناقصة -->
+<div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-lg font-bold text-gray-800 mb-4">
+        <i class="fas fa-exclamation-triangle text-red-500 ml-2"></i>
+        منتجات وصلت للحد الأدنى
+    </h2>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">المنتج</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الكمية الحالية</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الحد الأدنى</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in low_stock %}
+                <tr class="border-b hover:bg-red-50">
+                    <td class="py-3 px-4 font-medium text-gray-800">{{ product.name }}</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-red-100 text-red-700 text-xs font-medium px-2 py-1 rounded-full">
+                            {{ product.quantity_by_unit }}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4 text-gray-600">{{ product.min_quantity }}</td>
+                </tr>
+                {% endfor %}
+                {% if not low_stock %}
+                <tr>
+                    <td colspan="3" class="py-8 text-center text-gray-400">
+                        <i class="fas fa-check-circle text-3xl mb-2 block text-green-300"></i>
+                        كل المنتجات فوق الحد الأدنى 👍
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

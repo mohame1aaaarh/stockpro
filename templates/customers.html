@@ -9,7 +9,7 @@
 
 <!-- فورم الإضافة -->
 <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-    <form action="{{ url_for('customersPageadd') }}" method="POST" class="flex flex-wrap gap-3 items-end">
+    <form action="{{ url_for('customers_add') }}" method="POST" class="flex flex-wrap gap-3 items-end">
         <div class="flex-1 min-w-[180px]">
             <label class="form-label">اسم العميل</label>
             <input type="text" name="name" class="form-input" placeholder="اسم العميل" required>
@@ -55,7 +55,7 @@
                     <td class="py-3 px-4 text-gray-600">{{ customer.email }}</td>
                     <td class="py-3 px-4 text-gray-600">{{ customer.address }}</td>
                     <td class="py-3 px-4">
-                        <form action="{{ url_for('customersPagedelete', id=customer.id) }}"
+                        <form action="{{ url_for('customers_delete', id=customer.id) }}"
                               method="POST"
                               onsubmit="return confirm('هل أنت متأكد من حذف {{ customer.name }}؟')"
                               style="display:inline;">

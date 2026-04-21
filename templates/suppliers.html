@@ -9,7 +9,7 @@
 
 <!-- فورم الإضافة -->
 <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-    <form action="{{ url_for('suppliersPageadd') }}" method="POST" class="flex flex-wrap gap-3 items-end">
+    <form action="{{ url_for('suppliers_add') }}" method="POST" class="flex flex-wrap gap-3 items-end">
         <div class="flex-1 min-w-[180px]">
             <label class="form-label">اسم المورد</label>
             <input type="text" name="name" class="form-input" placeholder="اسم المورد" required>
@@ -55,7 +55,7 @@
                     <td class="py-3 px-4 text-gray-600">{{ supplier.email }}</td>
                     <td class="py-3 px-4 text-gray-600">{{ supplier.address }}</td>
                     <td class="py-3 px-4">
-                        <form action="{{ url_for('suppliersPagedelete', id=supplier.id) }}"
+                        <form action="{{ url_for('suppliers_delete', id=supplier.id) }}"
                               method="POST"
                               onsubmit="return confirm('هل أنت متأكد من حذف {{ supplier.name }}؟')"
                               style="display:inline;">

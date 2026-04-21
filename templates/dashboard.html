@@ -69,7 +69,7 @@
                 {% if recent_sales %}
                     {% for sale in recent_sales %}
                     <tr>
-                        <td class="font-medium">{{ sale.customer_name }}</td>
+                        <td class="font-medium">{{ sale.customer_name or 'عميل غير معروف' }}</td>
                         <td>
                             <span class="badge badge-success">{{ sale.total_amount }} جنيه</span>
                         </td>

@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}المبيعات - StockPro{% endblock %}
+{% block title %}المشتريات - StockPro{% endblock %}
 
 {% block content %}
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">المبيعات</h1>
+    <h1 class="text-2xl font-bold text-gray-800">المشتريات</h1>
 </div>
 
 <!-- فورم الإضافة -->
 <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-    <form action="{{ url_for('sales_add') }}" method="POST" class="flex flex-wrap gap-3 items-end">
+    <form action="{{ url_for('purchases_add') }}" method="POST" class="flex flex-wrap gap-3 items-end">
         <div class="flex-1 min-w-[200px]">
-            <label class="form-label">العميل</label>
-            <select name="customer_id" class="form-input bg-white" required>
-                <option value="" disabled selected>اختر العميل...</option>
-                {% for c in customers %}
-                <option value="{{ c.id }}">{{ c.name }}</option>
+            <label class="form-label">المورد</label>
+            <select name="supplier_id" class="form-input bg-white" required>
+                <option value="" disabled selected>اختر المورد...</option>
+                {% for s in suppliers %}
+                <option value="{{ s.id }}">{{ s.name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -34,46 +34,46 @@
         </div>
         <div>
             <button type="submit" class="btn btn-primary">
-                <i class="fas fa-plus"></i> تسجيل بيعة
+                <i class="fas fa-plus"></i> تسجيل شراء
             </button>
         </div>
     </form>
 </div>
 
-<!-- جدول المبيعات -->
+<!-- جدول المشتريات -->
 <div class="bg-white rounded-lg shadow-md p-6">
     <div class="overflow-x-auto">
         <table class="w-full">
             <thead>
                 <tr class="border-b">
                     <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">التاريخ</th>
-                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">العميل</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">المورد</th>
                     <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">المنتج</th>
                     <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الكمية</th>
-                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">الإجمالي</th>
-                    <th class="text-center py-3 px-4 text-sm font-medium text-gray-600">الفاتورة</th>
+                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-600">التكلفة الإجمالية</th>
+                    <th class="text-center py-3 px-4 text-sm font-medium text-gray-600">التفاصيل</th>
                 </tr>
             </thead>
             <tbody>
-                {% for sale in sales %}
+                {% for p in purchases %}
                 <tr class="border-b hover:bg-gray-50">
-                    <td class="py-3 px-4 text-gray-600" dir="ltr">{{ sale.sale_date }}</td>
-                    <td class="py-3 px-4 font-medium text-gray-800">{{ sale.customer_name }}</td>
-                    <td class="py-3 px-4 text-gray-600">{{ sale.product_name }}</td>
-                    <td class="py-3 px-4 font-medium">{{ sale.quantity }}</td>
-                    <td class="py-3 px-4 text-green-600 font-medium">{{ sale.total_amount }} جنيه</td>
+                    <td class="py-3 px-4 text-gray-600" dir="ltr">{{ p.purchase_date }}</td>
+                    <td class="py-3 px-4 font-medium text-gray-800">{{ p.supplier_name }}</td>
+                    <td class="py-3 px-4 text-gray-600">{{ p.product_name }}</td>
+                    <td class="py-3 px-4 font-medium">{{ p.quantity }}</td>
+                    <td class="py-3 px-4 text-blue-600 font-medium">{{ p.total_amount }} جنيه</td>
                     <td class="py-3 px-4 text-center">
-                        <a href="{{ url_for('sales_invoice', id=sale.id) }}" class="text-blue-500 hover:text-blue-700">
+                        <a href="{{ url_for('purchases_invoice', id=p.id) }}" class="text-blue-500 hover:text-blue-700">
                             <i class="fas fa-file-invoice text-lg"></i>
                         </a>
                     </td>
                 </tr>
                 {% endfor %}
-                {% if not sales %}
+                {% if not purchases %}
                 <tr>
                     <td colspan="5" class="py-8 text-center text-gray-400">
-                        <i class="fas fa-receipt text-3xl mb-2 block"></i>
-                        لا توجد مبيعات مسجلة حتى الآن
+                        <i class="fas fa-file-invoice text-3xl mb-2 block"></i>
+                        لا توجد مشتريات مسجلة حتى الآن
                     </td>
                 </tr>
                 {% endif %}

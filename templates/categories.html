@@ -10,7 +10,7 @@
             <i class="fas fa-plus text-blue-500 ml-2"></i>
             إضافة فئة جديدة
         </h2>
-        <form action="{{ url_for('categoriesPageadd') }}" method="POST">
+        <form action="{{ url_for('categories_add') }}" method="POST">
             <div class="mb-4">
                 <label class="form-label">اسم الفئة</label>
                 <input type="text" name="name" class="form-input"
@@ -45,7 +45,7 @@
                             <td class="text-gray-400 text-sm">{{ cat.id }}</td>
                             <td class="font-medium text-gray-800">{{ cat.name }}</td>
                             <td>
-                                <form action="{{ url_for('categoriesPagedelete', id=cat.id) }}"
+                                <form action="{{ url_for('categories_delete', id=cat.id) }}"
                                       method="POST"
                                       onsubmit="return confirm('هل أنت متأكد من حذف {{ cat.name }}؟')"
                                       style="display:inline;">
